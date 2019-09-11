@@ -30,7 +30,7 @@ class Initialization:
 
         assert method_name in methods, "%s is not an available strategy. Select one from: %s" % (method_name, methods)
 
-        self.method = getattr(self, method_name)
+        self.method = getattr(self, "init_" + method_name)
     
     def init_uniform(self, ns, lb, ub):
         """Standard random uniform initialization"""
