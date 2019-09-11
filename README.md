@@ -4,6 +4,11 @@ Implementation of the Maximum Search Limitations: Evolutionary Particle Swarm Op
 
 ## Usage
 
+    In 'main.py':
+        1) Set the objective function (the current example is for standard optimization benchmarks);
+        2) Set the parameters in the dictionary;
+        3) Run 'main.py'
+
 ## FAQ
 
     1) How to install "benchmarks"?
