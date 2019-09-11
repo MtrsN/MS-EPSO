@@ -1,6 +1,6 @@
 # MS-EPSO
 
-Implementation of the Maximum Search Limitations: Evolutionary Particle Swarm Optimization.
+Implementation of the Maximum Search Limitations: Evolutionary Particle Swarm Optimization [(MS-EPSO)](https://www.researchgate.net/publication/335519463_Maximum_Search_Limitations_Boosting_Evolutionary_Particle_Swarm_Optimization_Exploration)
 
 ## Usage
 
