@@ -1,12 +1,18 @@
 
+import copy as cp
 import numpy as np
 import matplotlib.pyplot as plt
-import timeit
 
+from tqdm import tqdm
 from ms_epso import msepso
 from problems import go_ampgo
-
 from math import floor, ceil, exp, log
+
+problem = {
+    "problem_set" : go_ampgo,
+    "problem_name" : "Rosenbrock",
+    "runs" : 5
+}
 
 ms_parameters = {
     "tau" : 0.8,
@@ -15,8 +21,7 @@ ms_parameters = {
     "mll" : 25,
     "max_fes" : 100000,
     "num_sol" : 50,
-    "init_method" : "uniform",
-    "seed" : 101
+    "init_method" : "uniform"
 }
 
 def round_power_of_10(n, f= "min"):
@@ -30,7 +35,7 @@ def round_power_of_10(n, f= "min"):
     
     return 10 ** exp
 
-def build_plot(history):
+def build_plot(history, runs):
 
     x_name = "# Function Evaluations"
     y_name = "Fitness"
@@ -52,20 +57,24 @@ def build_plot(history):
         
     ax.set_ylim(bottom= round_power_of_10(start, "min"), top= round_power_of_10(end, "max"))
 
+    plt.title("Mean f(x) in %d runs: %s" % (runs, history[-1]))
+
     plt.show()
 
 if __name__ == "__main__":
 
-    fx, gx, lb, ub = go_ampgo("Rosenbrock", dim= 30)
+    fx, gx, lb, ub = problem["problem_set"](problem["problem_name"])
 
-    ms = msepso(fx= fx, lb= lb, ub= ub, **ms_parameters)
+    history = []
 
-    start = timeit.default_timer()
+    for seed in tqdm(np.arange(101, 101 + problem["runs"]), desc= "Run", position= 1):
 
-    ms.run()
+        param_copy = cp.deepcopy(ms_parameters)
+        param_copy.update({"seed" : seed})
 
-    end = timeit.default_timer()
+        ms = msepso(fx= fx, lb= lb, ub= ub, **param_copy)
+        ms.run()
 
-    print("Processing time: %ss" % (end - start))
+        history.append(ms.history)
 
-    build_plot(ms.history)
+    build_plot(np.mean(history, axis= 0), problem["runs"])
