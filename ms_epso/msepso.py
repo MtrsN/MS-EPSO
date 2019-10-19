@@ -72,7 +72,7 @@ class MSEPSO:
         self.particles_local_best = []
         self.particles_local_best_fitness = []
         self.best_particle = []
-        self.best_particle_fitness = float(10e9)
+        self.best_particle_fitness = 9999999999999999999
 
         self.max_velocity = []
         self.min_velocity = []
@@ -96,7 +96,7 @@ class MSEPSO:
     def initalize(self):
         """ Initialization phase of MS-EPSO"""
 
-        np.random.seed(101)
+        np.random.seed(self.seed)
 
         # PSO
         self.particles = Initialization(self.init_method).method(self.num_sol, self.lb, self.ub)
