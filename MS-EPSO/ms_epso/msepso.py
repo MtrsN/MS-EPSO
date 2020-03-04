@@ -45,25 +45,26 @@ class MSEPSO:
         Random state to guarantee reproducibility (Default: 101)
     """
 
-    def __init__(self, **kwargs):
+    def __init__(self, fx, lb, ub, **kwargs):
 
-        required_parameters = ["fx", "lb", "ub"]
-        optinal_parameters = ["tau", "cp", "nr", "mll", "max_fes", "num_sol", "init_method", "seed"]
+        optinal_parameters = {"tau", "cp", "nr", "mll", "max_fes", "num_sol", "init_method", "seed"}
         optinal_values = [0.8, 0.9, 1, 50, 500, 25, "uniform", 101]
 
-        assert all(req in list(kwargs.keys()) for req in required_parameters), "Missing required parameters. Required parameters: %s" % required_parameters
-
         for k in kwargs:
-            if(k not in required_parameters and k not in optinal_parameters):
+            if(k not in optinal_parameters):
                 raise TypeError('Unexpected keyword argument passed to the algorithm: ' + str(k))
-        
         
         self.__dict__.update(kwargs)
 
         for op, ov in zip(optinal_parameters, optinal_values):
             if(not hasattr(self, op)):
                 setattr(self, op, ov)
-        
+
+        # Required
+        self.fx = fx
+        self.lb = lb
+        self.ub = ub
+
         self.dim = self.ub.shape[0]
 
         # PSO
