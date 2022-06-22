@@ -1,6 +1,6 @@
 # Python >= 3
 # benchmarks from SciPy (FAQ #1)
 
-numpy==1.16.2
+numpy==1.22.0
 matplotlib==3.0.2
 tqdm==4.32.1
